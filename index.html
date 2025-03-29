@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystic Tarot</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Mystic Tarot</h1>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </header>
+
+        <main>
+            <div class="game-screen active" id="welcome-screen">
+                <div class="welcome-content">
+                    <h2>Welcome to Your Tarot Journey</h2>
+                    <p>Discover insights about your past, present, and future through the ancient wisdom of tarot cards.</p>
+                    <button class="btn primary-btn" id="start-reading-btn">Begin Reading</button>
+                    <button class="btn secondary-btn" id="how-to-play-btn">How to Play</button>
+                </div>
+            </div>
+
+            <div class="game-screen" id="reading-type-screen">
+                <h2>Choose Your Reading</h2>
+                <div class="reading-options">
+                    <div class="reading-option" data-reading="single">
+                        <div class="card-preview single-card"></div>
+                        <h3>Single Card</h3>
+                        <p>Quick insight for a specific question</p>
+                    </div>
+                    <div class="reading-option" data-reading="three-card">
+                        <div class="card-preview three-card"></div>
+                        <h3>Past-Present-Future</h3>
+                        <p>Insights across your timeline</p>
+                    </div>
+                    <div class="reading-option" data-reading="celtic-cross">
+                        <div class="card-preview celtic-cross"></div>
+                        <h3>Celtic Cross</h3>
+                        <p>Comprehensive life reading</p>
+                    </div>
+                </div>
+                <button class="btn back-btn" data-target="welcome-screen"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+
+            <div class="game-screen" id="question-screen">
+                <h2>Focus on Your Question</h2>
+                <div class="question-input-container">
+                    <textarea id="question-input" placeholder="What would you like guidance on? (optional)"></textarea>
+                </div>
+                <p class="instruction-text">Take a deep breath and focus on your question as you prepare to select your cards.</p>
+                <button class="btn primary-btn" id="shuffle-btn">Shuffle Deck</button>
+                <button class="btn back-btn" data-target="reading-type-screen"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+
+            <div class="game-screen" id="card-selection-screen">
+                <h2>Select Your Cards</h2>
+                <p class="instruction-text" id="selection-instruction">Click on <span id="cards-to-select">1</span> cards from the deck</p>
+                <div class="deck-container">
+                    <div class="deck" id="tarot-deck"></div>
+                </div>
+                <button class="btn back-btn" data-target="question-screen"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+
+            <div class="game-screen" id="reading-screen">
+                <h2 id="reading-title">Your Tarot Reading</h2>
+                <div class="reading-container" id="reading-container"></div>
+                <div class="reading-interpretation" id="reading-interpretation"></div>
+                <div class="action-buttons">
+                    <button class="btn primary-btn" id="save-reading-btn">Save Reading</button>
+                    <button class="btn secondary-btn" id="new-reading-btn">New Reading</button>
+                </div>
+            </div>
+
+            <div class="game-screen" id="how-to-play-screen">
+                <h2>How to Use Tarot Cards</h2>
+                <div class="instructions-container">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Set Your Intention</h3>
+                            <p>Focus on a specific question or area of your life you seek guidance on.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Choose a Reading Type</h3>
+                            <p>Select from different spreads based on the depth of insight you're seeking.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Select Your Cards</h3>
+                            <p>Trust your intuition as you choose cards from the shuffled deck.</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Interpret Your Reading</h3>
+                            <p>Reflect on the cards' meanings and how they relate to your question.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn back-btn" data-target="welcome-screen"><i class="fas fa-arrow-left"></i> Back</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Created with ♥ | <span id="current-year"></span></p>
+            <div class="sound-toggle">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal for card details -->
+    <div class="modal" id="card-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div class="card-detail-image"></div>
+                <div class="card-detail-info">
+                    <h3 id="modal-card-name"></h3>
+                    <p class="card-keywords" id="modal-card-keywords"></p>
+                    <div class="card-meaning">
+                        <h4>Meaning</h4>
+                        <p id="modal-card-meaning"></p>
+                    </div>
+                    <div class="card-reversed" id="modal-reversed-container">
+                        <h4>Reversed Meaning</h4>
+                        <p id="modal-card-reversed"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
